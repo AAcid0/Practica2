@@ -3,6 +3,7 @@ package InterfazUsuario
 import scala.io._
 import Alimentos._
 import InsumosPlasticos._
+import Adicionales._
 import scala.util._
 
 object InterfazUsuario extends App
@@ -16,7 +17,7 @@ object InterfazUsuario extends App
     while(!cerrarTienda)
     {
         println("Bienvenido a la configuración de comidas rápidas")
-        println("Sus opciones son: \n 1->Crear Alimento \n 2->MostrarCatalogo \n 3->Salir")
+        println("Sus opciones son: \n 1->Crear Alimento \n 2-> MostrarCatalogo \n 3-> Agregar una salsa \n 4-> Agregar un tamaño\n 5-> Mostar tamaños \n 6-> Mostar salsas\n 7-> Salir")
         println("Escoja una opción: ")
         var opcion : Int = StdIn.readInt()
         if (opcion == 1)
@@ -39,6 +40,55 @@ object InterfazUsuario extends App
             
         }
         if (opcion == 3)
+        {
+            var agrSalsa = funAgregarSalsa()
+            agrSalsa match
+            {
+                case Success(s) => caja.mostrarSalsas().foreach(p => println(p.nombre + " " + p.referencia))
+                case Failure(f) => println(f) 
+            }
+            
+        }
+        if (opcion == 4)
+        {
+            var agrTamano = funAgregarTamano()
+            agrTamano match
+            {
+                case Success(s) => {
+                    var lisTamanos : List[TipoTamano] = caja.mostrarTamanos() 
+                    println("Tamaños actuales: ")
+                    lisTamanos.foreach{ t => 
+                    {
+                        println("Referencia : " + t.idTipoTamano + " Descripción: " + t.descripcion)
+                    }}
+                }
+                case Failure(f) => println(f) 
+            }
+            
+        }
+        if (opcion == 5)
+        {
+            if(caja.mostrarTamanos.isEmpty == true)
+            {
+                println("La lista de tamaños se encuentra vacía")
+            }
+            else
+            {
+                shoTamano()
+            }
+        }
+        if (opcion == 6)
+        {
+            if(caja.mostrarSalsas.isEmpty == true)
+            {
+                println("La lista de salsas se encuentra vacía")
+            }
+            else
+            {
+                shoSalsas()
+            }
+        }
+        if (opcion == 7)
         {
             println("Cerrando sistema.")
             cerrarTienda = true
@@ -91,5 +141,50 @@ object InterfazUsuario extends App
         var tipoTamanoElejido : Option[TipoTamano] = tamanos.filter(t => t.idTipoTamano == referencia).headOption
         return tipoTamanoElejido
     }
+
+    def funAgregarSalsa() : Try[Unit] = 
+    {
+        return Try{
+            println("Digite el nombre de la salsa que desea crear")
+            var nomSalsa : String = StdIn.readLine()
+            var nuevaSalsa : Salsa = new Salsa(nomSalsa)
+            caja.agregarSalsaCatalogo(nuevaSalsa)
+            println("Salsa Agregada exitosamente")
+        }
+    }
+
+    def funAgregarTamano() : Try[Unit] =
+    {
+        return Try{
+            println("Ingrese la descripción del tamaño que desea agreagar")
+            var desc : String = StdIn.readLine()
+            var nuevoTam : TipoTamano = new TipoTamano()
+            nuevoTam.descripcion = desc
+            caja.agregarTamano(nuevoTam)
+            println("Tamaño agregado exitosamente")
+        }
+    }
+
+    def shoTamano() : Unit =
+    {
+        var tamanos : List[TipoTamano] = caja.mostrarTamanos()
+        println("Tamaños actuales: ")
+        tamanos.foreach{ t => 
+        {
+            println("Referencia : " + t.idTipoTamano + "-  Descripción: " + t.descripcion)
+        }}
+    }
+
+    def shoSalsas() : Unit =
+    {
+        var sauces : List[Salsa] = caja.mostrarSalsas()
+        println("Salsas Disponibles: ")
+        sauces.foreach{ t => 
+        {
+            println("Nombre : " + t.nombre + " -  Referencia: " + t.referencia)
+        }}
+    }
+
+
 
 }
