@@ -10,6 +10,7 @@ class Hamburguesa extends Alimento
     override var _referencia : String = GeneradorReferencia.crearReferencia()
     private var _esAgrandable : Boolean = false
     override var _costo : Double = _
+    override var _tipoAlimento : String = "Hamburguesa"
 
     /*Cosntructores Auxiliares*/
     def this(t: TipoTamano, d : String, c : Double)

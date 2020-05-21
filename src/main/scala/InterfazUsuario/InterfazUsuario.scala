@@ -16,7 +16,7 @@ object InterfazUsuario extends App
 
     while(!cerrarTienda)
     {
-        println("Bienvenido a la configuración de comidas rápidas")
+        println("\nBienvenido a la configuración de comidas rápidas")
         println("Sus opciones son: \n 1->Crear Alimento \n 2-> MostrarCatalogo \n 3-> Agregar una salsa \n 4-> Agregar un tamaño\n 5-> Mostar tamaños \n 6-> Mostar salsas\n 7-> Salir")
         println("Escoja una opción: ")
         var opcion : Int = StdIn.readInt()
@@ -31,10 +31,10 @@ object InterfazUsuario extends App
         }
         if (opcion == 2)
         {
-            var probarCatalogo = mostrarComida()
+            var probarCatalogo = comprobarCatalogo()
             probarCatalogo match
             {
-                case Success(s) => caja.mostrarCatalogo().foreach(p => println(p.descripcion + " " + p.referencia))
+                case Success(s) => mostrarComidas()
                 case Failure(f) => println(f) 
             }
             
@@ -95,13 +95,34 @@ object InterfazUsuario extends App
         }
     }
 
-    def mostrarComida() : Try[Unit] =
+    def comprobarCatalogo() : Try[Unit] =
     {
         return Try{
             if(caja.mostrarCatalogo.isEmpty)
             {
                 throw new Exception("El catalogo está vacío\n")
             }
+        }
+    }
+    def mostrarComidas() : Unit =
+    {
+        var listaHamburguesas = caja.mostrarCatalogo.filter(x => x.tipoAlimento == "Hamburguesa").asInstanceOf[List[Hamburguesa]]
+        var listaPapas = caja.mostrarCatalogo.filter(x => x.tipoAlimento == "Papas").asInstanceOf[List[Papas]]
+        var listaBebidas = caja.mostrarCatalogo.filter(x => x.tipoAlimento == "Bebida").asInstanceOf[List[Bebida]]
+        if(listaHamburguesas.nonEmpty)
+        {
+            println("\nHamburguesas\n==================\n")
+            listaHamburguesas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
+        }
+        if(listaPapas.nonEmpty)
+        {
+            println("\nPapas\n==================\n")
+            listaPapas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
+        }
+        if(listaBebidas.nonEmpty)
+        {
+            println("\nBebidas\n==================\n")
+            listaBebidas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
         }
     }
     def crearAlimentoCatalogo() : Try[Unit] = 

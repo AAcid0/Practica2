@@ -10,7 +10,7 @@ class Papas extends Alimento
     override var _referencia : String = GeneradorReferencia.crearReferencia()
     override var _costo : Double = _
     private var _conQueso : Boolean = false
-
+    override var _tipoAlimento : String = "Papas"
     /*Cosntructores Auxiliares*/
     def this(t: TipoTamano, d : String, c : Double, queso : Boolean)
     {

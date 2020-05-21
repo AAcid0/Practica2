@@ -10,7 +10,8 @@ class Bebida extends Alimento
     override var _referencia : String = GeneradorReferencia.crearReferencia()
     override var _costo : Double = _
     private var _conHielo : Boolean = false
-
+    override var _tipoAlimento : String = "Bebida"
+    
     /*Cosntructores Auxiliares*/
     def this(t: TipoTamano, d : String, c : Double)
     {
