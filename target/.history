@@ -1,0 +1,50 @@
+compile
+test
+git init
+compile
+testOnly HamburguesaTest
+test
+testOnly HamburguesaTest
+testOnly CajaTest
+clc
+testOnly CajaTest
+}}}
+}
+testOnly CajaTes
+testOnly CajaTest
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+1
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run
+compile
+run

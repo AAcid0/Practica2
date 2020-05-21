@@ -1,0 +1,7 @@
+[0m[[0m[0minfo[0m] [0m[0m[32mTipoTamanoTest:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Al crear, se asigna un ID automáticamente[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- El ID debe tener 6 caracteres de longitud[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[33m- Cuando se asigna la descripción, el valor de la descripción no es vacio (pending)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m- El tipoTamano tiene como ID un número *** FAILED ***[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  org.scalatest.exceptions.TestFailedException was thrown. (TipoTamanoTest.scala:23)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- Cuando se asigna Grande a la descripción, se debe mostrar 'Grande' al solicitarlo[0m[0m

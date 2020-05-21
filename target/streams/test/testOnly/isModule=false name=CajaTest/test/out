@@ -1,0 +1,24 @@
+[0m[[0m[0minfo[0m] [0m[0m[32mCajaTest:[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mFeature: Crear Alimento[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m  Scenario: Hamburguesa Ranchera con valor de $20000[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Given Dada una hamburguesa ranchera con valor de $20000 [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    When Se agrega la hamburguesa [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Then El catálogo no se encuentra vacío [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m  Scenario: Bebida CocaCola con valor de 5000 grande[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Given Dada una bebida CocaCola con valor de 5000 grande [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    When Se agrega la bebida al catálogo de la caja [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Then El catálogo tiene 2 elementos [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m  Scenario: Crear unas papas pequeñas con valor de 4000 con queso[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Given Dadas unas papas pequeñas con valor de 4000 con queso [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    When Se agrega las papas a al catálogo de la caja [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Then La referencia de las papas se encuentra en el catálogo [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mFeature: Crear Pedido[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m  Scenario: Agregar al pedido una hamburguesa y unas papas[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Given Dados dos elementos de catálogo [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    When Se agregan los elementos al pedido [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m    Then El costo del pedido será igual a 24000 [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  Scenario: Agregar al pedido una hamburguesa, dos bebidas y todo para llevar *** FAILED ***[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m  34900.0 did not equal 30900 (CajaTest.scala:105)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m    Given Dados dos elementos de catálogo [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m    When Se agregan los elementos al pedido [0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[31m    Then El costo será de 30900 [0m[0m
