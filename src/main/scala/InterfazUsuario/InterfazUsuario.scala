@@ -16,83 +16,124 @@ object InterfazUsuario extends App
 
     while(!cerrarTienda)
     {
-        println("\nBienvenido a la configuración de comidas rápidas")
-        println("Sus opciones son: \n 1->Crear Alimento \n 2-> MostrarCatalogo \n 3-> Agregar una salsa \n 4-> Agregar un tamaño\n 5-> Mostar tamaños \n 6-> Mostar salsas\n 7-> Salir")
-        println("Escoja una opción: ")
-        var opcion : Int = StdIn.readInt()
-        if (opcion == 1)
+        println("\nBienvenido a fastfood.io, comida rápida")
+        println("Ingresa la opción que se adapte a tu perfil")
+        println("1-> Soy cliente.")
+        println("2-> Soy vendedor.")
+        println("3-> Salir.")
+        println("Tu opción es: ")
+        var perfil : Int = StdIn.readInt()
+        perfil match
         {
-            var resultadoOperacion = crearAlimentoCatalogo()
-            resultadoOperacion match
-            {
-                case Success(s) => println("Producto Creado Correctamente")
-                case Failure(f) => println(f)
-            }    
-        }
-        if (opcion == 2)
-        {
-            var probarCatalogo = comprobarCatalogo()
-            probarCatalogo match
-            {
-                case Success(s) => mostrarComidas()
-                case Failure(f) => println(f) 
-            }
-            
-        }
-        if (opcion == 3)
-        {
-            var agrSalsa = funAgregarSalsa()
-            agrSalsa match
-            {
-                case Success(s) => caja.mostrarSalsas().foreach(p => println(p.nombre + " " + p.referencia))
-                case Failure(f) => println(f) 
-            }
-            
-        }
-        if (opcion == 4)
-        {
-            var agrTamano = funAgregarTamano()
-            agrTamano match
-            {
-                case Success(s) => {
-                    var lisTamanos : List[TipoTamano] = caja.mostrarTamanos() 
-                    println("Tamaños actuales: ")
-                    lisTamanos.foreach{ t => 
+            case 1 => {
+                var sesionCliente : Boolean = true
+                while(sesionCliente)
+                {
+                    println("\nBienvenido a fastfood.io, comida rápida")
+                    println("Tus opciones son:")
+                    println("1-> Ver Carta.")
+                    println("2-> Comprar.")
+                    println("3-> Volver.")
+                    println("Su elección: ")
+                    var opcion : Int = StdIn.readInt()
+                    opcion match
                     {
-                        println("Referencia : " + t.idTipoTamano + " Descripción: " + t.descripcion)
-                    }}
+                        case 1 => {
+                            var probarCatalogo = comprobarCatalogo()
+                            probarCatalogo match
+                            {
+                                case Success(s) => mostrarComidas()
+                                case Failure(f) => println(f) 
+                            }
+                        }
+                        case 3 => {
+                            sesionCliente = false
+                        }
+                    }
+                }               
+            }
+            case 2 => {
+                var sesionVendedor : Boolean = true
+                while(sesionVendedor)
+                {
+                    println("\nPanel de Control - fastfood.io")
+                    println("Tus opciones son:")
+                    println("1-> Agregar alimento nuevo a la carta.\n2-> Agregar nueva salsa disponible.\n3-> Agregar nueva presentacion disponible.")
+                    println("4-> Mostrar presentaciones disponibles.\n5-> Mostrar salsas disponibles.\n6-> Mostrar catalogo de comidas.")
+                    println("7-> Volver.")
+                    println("Su elección: ")
+                    var opcion : Int = StdIn.readInt()
+                    opcion match
+                    {
+                        case 1=> {
+                            var resultadoOperacion = crearAlimentoCatalogo()
+                            resultadoOperacion match
+                            {
+                                case Success(s) => println("Producto Creado Correctamente")
+                                case Failure(f) => println(f)
+                            }
+                        }
+                        case 2 => {
+                            var agrSalsa = funAgregarSalsa()
+                            agrSalsa match
+                            {
+                                case Success(s) => caja.mostrarSalsas().foreach(p => println(p.nombre + " " + p.referencia))
+                                case Failure(f) => println(f) 
+                            }
+                        }
+                        case 3 => {
+                            var agrTamano = funAgregarTamano()
+                            agrTamano match
+                            {
+                                case Success(s) => {
+                                            var lisTamanos : List[TipoTamano] = caja.mostrarTamanos() 
+                                            println("Tamaños actuales: ")
+                                            lisTamanos.foreach{ t => {
+                                                println("Referencia : " + t.idTipoTamano + " Descripción: " + t.descripcion)
+                                            }}
+                                        }
+                                case Failure(f) => println(f) 
+                            }
+                        }
+                        case 4 => {
+                            if(caja.mostrarTamanos.isEmpty == true)
+                            {
+                                println("La lista de tamaños se encuentra vacía")
+                            }
+                            else
+                            {
+                                shoTamano()
+                            }
+                        }
+                        case 5 => {
+                            if(caja.mostrarSalsas.isEmpty == true)
+                            {
+                                println("La lista de salsas se encuentra vacía")
+                            }
+                            else
+                            {
+                                shoSalsas()
+                            }
+                        }
+                        case 6 => {
+                            var probarCatalogo = comprobarCatalogo()
+                            probarCatalogo match
+                            {
+                                case Success(s) => mostrarComidas()
+                                case Failure(f) => println(f) 
+                            }
+                        }
+                        case 7 => {
+                            sesionVendedor = false
+                        }
+                    }
                 }
-                case Failure(f) => println(f) 
             }
+            case 3 => {
+                cerrarTienda = true
+            }
+        }
             
-        }
-        if (opcion == 5)
-        {
-            if(caja.mostrarTamanos.isEmpty == true)
-            {
-                println("La lista de tamaños se encuentra vacía")
-            }
-            else
-            {
-                shoTamano()
-            }
-        }
-        if (opcion == 6)
-        {
-            if(caja.mostrarSalsas.isEmpty == true)
-            {
-                println("La lista de salsas se encuentra vacía")
-            }
-            else
-            {
-                shoSalsas()
-            }
-        }
-        if (opcion == 7)
-        {
-            println("Cerrando sistema.")
-            cerrarTienda = true
-        }
     }
 
     def comprobarCatalogo() : Try[Unit] =
