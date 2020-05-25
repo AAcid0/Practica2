@@ -46,6 +46,19 @@ object InterfazUsuario extends App
                                 case Failure(f) => println(f) 
                             }
                         }
+                        case 2 => {
+
+                            var compraFin : List[Alimento] = comprar()
+                            var costoTotal : Double = 0.0
+
+                            for(i <- compraFin)
+                            {
+                                println(i.tipoAlimento + " " + i.descripcion + " " + i.calcularCosto() + " " + i.referencia)
+                                costoTotal += i.calcularCosto()
+                            }
+                            println("El costo de la compra es de: " + costoTotal)
+
+                        }
                         case 3 => {
                             sesionCliente = false
                         }
@@ -187,6 +200,7 @@ object InterfazUsuario extends App
             }
             comida.tamano = tipoTamano.get
             caja.agregarAlimentoCatalogo(comida)
+
         }
     }
 
@@ -198,9 +212,9 @@ object InterfazUsuario extends App
         {
             println("Referencia : " + t.idTipoTamano + " Descripción: " + t.descripcion)
         }}
-        println("Escriba la referecia de su tamaño: ")
+        println("Escriba la descripcion de su tamaño: ")
         var referencia : String = StdIn.readLine()
-        var tipoTamanoElejido : Option[TipoTamano] = tamanos.filter(t => t.idTipoTamano == referencia).headOption
+        var tipoTamanoElejido : Option[TipoTamano] = tamanos.filter(t => t.descripcion == referencia).headOption
         return tipoTamanoElejido
     }
 
@@ -247,6 +261,118 @@ object InterfazUsuario extends App
         }}
     }
 
+    def comprar() : List[Alimento] =
+    {
 
+        var compraTerminada : Boolean = false
+        var compra : List[Alimento] = List()
+        while(!compraTerminada)
+        {
+            println("¿Qué desea comprar?")
+            println("1- hamburguesa")
+            println("2- bebida")
+            println("3- papas")
+            println("4- finalizar compra")
+            println("Escriba lo que desee: ")
+            var opcion : Int = StdIn.readInt()
+
+            opcion match
+            {
+                case 1 =>{
+                    var listaHamburguesas = caja.mostrarCatalogo.filter(x => x.tipoAlimento == "Hamburguesa").asInstanceOf[List[Hamburguesa]]
+                    if(listaHamburguesas.nonEmpty)
+                    {
+                        println("\nHamburguesas\n==================\n")
+                        listaHamburguesas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
+                    }
+                    println("¿Qué hamburguesa desea?")
+                    var ham : String = StdIn.readLine()
+                    for( i <- listaHamburguesas)
+                    {
+                        if(i.descripcion == ham)
+                        {
+                            println("¿Desea agrandar su hamburguesa?(si/no)")
+                            var op : String = StdIn.readLine()
+                            
+                            if(op == "si")
+                            {
+                                i.esAgrandable = true
+                                compra = i :: compra
+                            }
+                            else if(op == "no")
+                            {
+                                compra = i :: compra
+                            }
+                        }
+                    }
+                }
+                case 2 =>{
+                    var listaBebidas = caja.mostrarCatalogo.filter(x => x.tipoAlimento == "Bebida").asInstanceOf[List[Bebida]]
+                    if(listaBebidas.nonEmpty)
+                    {
+                        println("\nBebidas\n==================\n")
+                        listaBebidas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
+                    }
+                    println("¿Qué bebida desea?")
+                    var beb : String = StdIn.readLine()
+                    for( i <- listaBebidas)
+                    {
+                        if(i.descripcion == beb)
+                        {
+                            println("¿Desea su bebida con hielo?(si/no)")
+                            var op : String = StdIn.readLine()
+                            
+                            if(op == "si")
+                            {
+                                i.conHielo = true
+                                compra = i :: compra
+                            }
+                            if(op == "no")
+                            {
+                                compra = i :: compra
+                            }
+                        }
+                    }
+                }
+                case 3 =>{
+                    var listaPapas = caja.mostrarCatalogo.filter(x => x.tipoAlimento == "Papas").asInstanceOf[List[Papas]]
+                    if(listaPapas.nonEmpty)
+                    {
+                        println("\nPapas\n==================\n")
+                        listaPapas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
+                    }
+        
+                    println("¿Qué tipo de papas desea?")
+                    var pap : String = StdIn.readLine()
+                    for( i <- listaPapas)
+                    {
+                        if(i.descripcion == pap)
+                        {
+                            println("¿Desea sus papas con queso?(si/no)")
+                            var op : String = StdIn.readLine()
+                            
+                            if(op == "si")
+                            {
+                                i.conQueso = true
+                                compra = i :: compra
+                            }
+                            if(op == "no")
+                            {
+                                compra = i :: compra
+                            }
+                        }
+                    }
+                }
+                case 4 =>{
+
+                    compraTerminada = true
+                
+                }
+            }
+        }
+
+        return compra
+        
+    }
 
 }
