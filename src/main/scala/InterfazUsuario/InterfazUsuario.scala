@@ -212,9 +212,9 @@ object InterfazUsuario extends App
         {
             println("Referencia : " + t.idTipoTamano + " Descripción: " + t.descripcion)
         }}
-        println("Escriba la descripcion de su tamaño: ")
+        println("Escriba la referencia de su tamaño: ")
         var referencia : String = StdIn.readLine()
-        var tipoTamanoElejido : Option[TipoTamano] = tamanos.filter(t => t.descripcion == referencia).headOption
+        var tipoTamanoElejido : Option[TipoTamano] = tamanos.filter(t => t.idTipoTamano == referencia).headOption
         return tipoTamanoElejido
     }
 
@@ -268,12 +268,13 @@ object InterfazUsuario extends App
         var compra : List[Alimento] = List()
         while(!compraTerminada)
         {
+            println("\nBienvenido a fastfood.io, comida rápida")
             println("¿Qué desea comprar?")
-            println("1- hamburguesa")
-            println("2- bebida")
-            println("3- papas")
-            println("4- finalizar compra")
-            println("Escriba lo que desee: ")
+            println("1-> Hamburguesa")
+            println("2-> Bebida")
+            println("3-> Papas")
+            println("4- Finalizar compra")
+            println("Ingrese su elección: ")
             var opcion : Int = StdIn.readInt()
 
             opcion match
@@ -287,23 +288,39 @@ object InterfazUsuario extends App
                     }
                     println("¿Qué hamburguesa desea?")
                     var ham : String = StdIn.readLine()
-                    for( i <- listaHamburguesas)
+                    if(listaHamburguesas.exists(y => y.descripcion == ham))
                     {
-                        if(i.descripcion == ham)
+                        for( i <- listaHamburguesas)
                         {
-                            println("¿Desea agrandar su hamburguesa?(si/no)")
-                            var op : String = StdIn.readLine()
-                            
-                            if(op == "si")
+                            if(i.descripcion == ham)
                             {
-                                i.esAgrandable = true
-                                compra = i :: compra
-                            }
-                            else if(op == "no")
-                            {
-                                compra = i :: compra
+                                println("¿Desea agrandar su hamburguesa?(si/no)")
+                                var op : String = StdIn.readLine()
+                                
+                                if(op == "si")
+                                {
+                                    i.esAgrandable = true
+                                    compra = i :: compra
+                                }
+                                else if(op == "no")
+                                {
+                                    compra = i :: compra
+                                }
+                                println("¿Deseas adicionar alguna salsa? (si/no)")
+                                var opSal : String = StdIn.readLine()
+                                if(opSal == "si")
+                                {
+                                    shoSalsas()
+                                    println("\nIngresa el nombre de tu salsa:")
+                                    var opcSal : String = StdIn.readLine()
+                                    println("Salsa agregada al pedido.")
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        println("Selección no disponible, por favor verifique la carta.")
                     }
                 }
                 case 2 =>{
@@ -313,25 +330,31 @@ object InterfazUsuario extends App
                         println("\nBebidas\n==================\n")
                         listaBebidas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
                     }
-                    println("¿Qué bebida desea?")
+                    println("\n¿Qué bebida desea?")
                     var beb : String = StdIn.readLine()
-                    for( i <- listaBebidas)
+                    if(listaBebidas.exists(y => y.descripcion == beb))
                     {
-                        if(i.descripcion == beb)
+                        for( i <- listaBebidas)
                         {
-                            println("¿Desea su bebida con hielo?(si/no)")
-                            var op : String = StdIn.readLine()
-                            
-                            if(op == "si")
+                            if(i.descripcion == beb)
                             {
-                                i.conHielo = true
-                                compra = i :: compra
-                            }
-                            if(op == "no")
-                            {
-                                compra = i :: compra
+                                println("¿Desea su bebida con hielo?(si/no)")
+                                var op : String = StdIn.readLine()
+                                
+                                if(op == "si")
+                                {
+                                    i.conHielo = true
+                                    compra = i :: compra
+                                }
+                                if(op == "no")
+                                {
+                                    compra = i :: compra
+                                }
                             }
                         }
+                    }
+                    else{
+                        println("Selección no disponible, por favor verifique la carta.")
                     }
                 }
                 case 3 =>{
@@ -342,32 +365,38 @@ object InterfazUsuario extends App
                         listaPapas.foreach(p => println(p.descripcion + " " + p._costo + " " + p.referencia))
                     }
         
-                    println("¿Qué tipo de papas desea?")
+                    println("\n¿Qué tipo de papas desea?")
                     var pap : String = StdIn.readLine()
-                    for( i <- listaPapas)
+                    if(listaPapas.exists(y => y.descripcion == pap))
                     {
-                        if(i.descripcion == pap)
+                        for( i <- listaPapas)
                         {
-                            println("¿Desea sus papas con queso?(si/no)")
-                            var op : String = StdIn.readLine()
-                            
-                            if(op == "si")
+                            if(i.descripcion == pap)
                             {
-                                i.conQueso = true
-                                compra = i :: compra
-                            }
-                            if(op == "no")
-                            {
-                                compra = i :: compra
+                                println("¿Desea sus papas con queso?(si/no)")
+                                var op : String = StdIn.readLine()
+                                
+                                if(op == "si")
+                                {
+                                    i.conQueso = true
+                                    compra = i :: compra
+                                }
+                                if(op == "no")
+                                {
+                                    compra = i :: compra
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        println("Selección no disponible, por favor verifique la carta.")
+                    }
                 }
                 case 4 =>{
-
                     compraTerminada = true
-                
                 }
+                case default => println("Por favor ingrese una opción válida.")
             }
         }
 
